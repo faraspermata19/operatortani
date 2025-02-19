@@ -37,7 +37,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Dashboard', logoPath: 'assets/logo.png'),
+      backgroundColor: AppColors.backgroundColor,
+      appBar: CustomAppBar(title: '', logoPath: 'assets/logo2.png'),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -73,18 +74,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
               SizedBox(height: 10),
 
               SizedBox(
-                height: 130, // Ukuran lebih kecil
+                height: 160, // Tinggi lebih proporsional
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: 6, // Bisa lebih banyak webinar
                   itemBuilder: (context, index) {
+                    String imagePath = 'assets/webinar_$index.jpg';
                     return Container(
-                      width: 200, // Ukuran lebih kecil dan bisa lebih banyak dalam satu layar
-                      margin: EdgeInsets.only(right: 10),
+                      width: 220,
+                      margin: EdgeInsets.only(right: 12),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         image: DecorationImage(
-                          image: AssetImage('assets/webinar_$index.jpg'),
+                          image: AssetImage(imagePath),
                           fit: BoxFit.cover,
                         ),
                       ),

@@ -7,23 +7,27 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String logoPath;
   final List<Widget>? actions; // Tambahkan properti actions
 
-  CustomAppBar({
+  const CustomAppBar({
+    super.key,
     required this.title,
     required this.logoPath,
     this.actions, // Tambahkan parameter actions agar bisa dikustomisasi
   });
 
   @override
-  Size get preferredSize => Size.fromHeight(100);
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
       title: Row(
         children: [
           Image.asset(
             logoPath,
-            height: 50,
+            height: 40,
+            fit: BoxFit.contain,
           ),
           SizedBox(width: 10),
           Text(
@@ -32,10 +36,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ],
       ),
-      backgroundColor: AppColors.primaryColor,
-      centerTitle: true,
-      elevation: 0,
-      actions: actions, // Tambahkan actions ke dalam AppBar
+      centerTitle: false, // Pastikan logo tetap di kiri
+      actions: actions,  // Tambahkan actions ke dalam AppBar
     );
   }
 }

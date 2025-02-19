@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Home',
-        logoPath: 'assets/logo.png', // Ganti dengan path logo Anda
+        logoPath: 'assets/logo2.png', // Ganti dengan path logo Anda
       ),
       body: Center(
         child: Column(

@@ -15,7 +15,7 @@ class LoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/logo.png', // Ganti dengan path logo Anda
+              'assets/logo2.png', // Ganti dengan path logo Anda
               height: 100,
             ),
             SizedBox(height: 20),
