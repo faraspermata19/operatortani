@@ -20,30 +20,36 @@ class _DaftarPetaniScreenState extends State<DaftarPetaniScreen> {
   final TextEditingController _roleController = TextEditingController();
 
   void _addPetani() {
+    _nameController.clear();
+    _roleController.clear();
+    
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Tambah Petani'),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          title: Text('Tambah Petani', style: TextStyles.heading),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: _nameController,
-                decoration: InputDecoration(labelText: 'Nama'),
+                decoration: InputDecoration(labelText: 'Nama', border: OutlineInputBorder()),
               ),
+              SizedBox(height: 10),
               TextField(
                 controller: _roleController,
-                decoration: InputDecoration(labelText: 'Jabatan'),
+                decoration: InputDecoration(labelText: 'Jabatan', border: OutlineInputBorder()),
               ),
             ],
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Batal'),
+              child: Text('Batal', style: TextStyles.bodyText),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryColor),
               onPressed: () {
                 if (_nameController.text.isNotEmpty && _roleController.text.isNotEmpty) {
                   setState(() {
@@ -52,8 +58,6 @@ class _DaftarPetaniScreenState extends State<DaftarPetaniScreen> {
                       'role': _roleController.text,
                     });
                   });
-                  _nameController.clear();
-                  _roleController.clear();
                   Navigator.pop(context);
                 }
               },
@@ -73,26 +77,29 @@ class _DaftarPetaniScreenState extends State<DaftarPetaniScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Edit Petani'),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          title: Text('Edit Petani', style: TextStyles.heading),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: _nameController,
-                decoration: InputDecoration(labelText: 'Nama'),
+                decoration: InputDecoration(labelText: 'Nama', border: OutlineInputBorder()),
               ),
+              SizedBox(height: 10),
               TextField(
                 controller: _roleController,
-                decoration: InputDecoration(labelText: 'Jabatan'),
+                decoration: InputDecoration(labelText: 'Jabatan', border: OutlineInputBorder()),
               ),
             ],
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Batal'),
+              child: Text('Batal', style: TextStyles.bodyText),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryColor),
               onPressed: () {
                 if (_nameController.text.isNotEmpty && _roleController.text.isNotEmpty) {
                   setState(() {
@@ -101,8 +108,6 @@ class _DaftarPetaniScreenState extends State<DaftarPetaniScreen> {
                       'role': _roleController.text,
                     };
                   });
-                  _nameController.clear();
-                  _roleController.clear();
                   Navigator.pop(context);
                 }
               },
@@ -126,12 +131,6 @@ class _DaftarPetaniScreenState extends State<DaftarPetaniScreen> {
       appBar: CustomAppBar(
         title: 'Daftar Petani',
         logoPath: 'assets/logo.png',
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add, color: Colors.white),
-            onPressed: _addPetani,
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -144,32 +143,46 @@ class _DaftarPetaniScreenState extends State<DaftarPetaniScreen> {
               )
             : ListView.separated(
                 itemCount: petaniList.length,
-                separatorBuilder: (context, index) => Divider(),
+                separatorBuilder: (context, index) => SizedBox(height: 10),
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: AppColors.primaryColor,
-                      child: Icon(Icons.person, color: Colors.white),
+                  return Card(
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    title: Text(petaniList[index]['name']!, style: TextStyles.bodyText),
-                    subtitle: Text(petaniList[index]['role']!, style: TextStyles.bodyText),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.edit, color: Colors.blue),
-                          onPressed: () => _editPetani(index),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete, color: Colors.red),
-                          onPressed: () => _deletePetani(index),
-                        ),
-                      ],
+                    child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      leading: CircleAvatar(
+                        backgroundColor: AppColors.primaryColor,
+                        child: Icon(Icons.person, color: Colors.white),
+                      ),
+                      title: Text(petaniList[index]['name']!, style: TextStyles.bodyText),
+                      subtitle: Text(petaniList[index]['role']!, style: TextStyles.subText),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.edit, color: Colors.blue),
+                            onPressed: () => _editPetani(index),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.delete, color: Colors.red),
+                            onPressed: () => _deletePetani(index),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
               ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _addPetani,
+        backgroundColor: AppColors.primaryColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: Icon(Icons.add, color: Colors.white),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

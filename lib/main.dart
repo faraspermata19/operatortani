@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => LoginScreen(),
         '/dashboard': (context) => DashboardScreen(), // Tambahkan Dashboard
-        '/absensi': (context) => AbsensiScreen(),
+        '/absensi': (context) => AbsensiScreen(lahanNama: 'Nama Lahan'),
         '/profil': (context) => ProfilScreen(),
         '/daftar_petani': (context) => DaftarPetaniScreen(),
         '/add_lahan': (context) => TambahLahanScreen(),

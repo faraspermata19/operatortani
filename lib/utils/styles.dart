@@ -24,4 +24,9 @@ class TextStyles {
     fontWeight: FontWeight.bold,
     color: Colors.black,
   );
+
+  static const TextStyle subText = TextStyle(
+    fontSize: 14,
+    color: Colors.grey,
+  );
 }

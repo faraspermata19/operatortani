@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import '../widgets/custom_appbar.dart';
 import '../utils/colors.dart';
 import '../utils/styles.dart';
-import '../screens/absensi_screen.dart';
-import '../screens/profil_screen.dart';
-import '../screens/daftar_petani_screen.dart'; 
-import '../screens/add_lahan_screen.dart'; // Pastikan halaman lain diimpor jika perlu
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -19,8 +15,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     setState(() {
       _selectedIndex = index;
     });
-
-    // Tambahkan navigasi jika ingin berpindah halaman
     switch (index) {
       case 0:
         Navigator.pushReplacementNamed(context, '/dashboard');
@@ -43,10 +37,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: 'Dashboard',
-        logoPath: 'assets/logo.png',
-      ),
+      appBar: CustomAppBar(title: 'Dashboard', logoPath: 'assets/logo.png'),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -54,15 +45,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Search Bar
-              TextField(
-                decoration: InputDecoration(
-                  hintText: 'Cari fitur atau data...',
-                  prefixIcon: Icon(Icons.search, color: AppColors.primaryColor),
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      blurRadius: 6,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Cari fitur atau data...',
+                    prefixIcon: Icon(Icons.search, color: AppColors.primaryColor),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
                   ),
                 ),
               ),
@@ -71,47 +71,46 @@ class _DashboardScreenState extends State<DashboardScreen> {
               // Promosi Webinar
               Text('Webinar Terbaru', style: TextStyles.headerText),
               SizedBox(height: 10),
+
               SizedBox(
-                height: 150,
+                height: 130, // Ukuran lebih kecil
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 5,
+                  itemCount: 6, // Bisa lebih banyak webinar
                   itemBuilder: (context, index) {
                     return Container(
-                      width: 250,
-                      margin: EdgeInsets.only(right: 12),
+                      width: 200, // Ukuran lebih kecil dan bisa lebih banyak dalam satu layar
+                      margin: EdgeInsets.only(right: 10),
                       decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(12),
                         image: DecorationImage(
                           image: AssetImage('assets/webinar_$index.jpg'),
                           fit: BoxFit.cover,
-                          colorFilter: ColorFilter.mode(
-                            Colors.black.withOpacity(0.4),
-                            BlendMode.darken,
-                          ),
                         ),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Webinar ${index + 1}',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)),
+                                color: Colors.black.withOpacity(0.6),
+                              ),
+                              child: Text(
+                                'Webinar ${index + 1}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                            Text(
-                              'Pelajari lebih lanjut!',
-                              style: TextStyle(color: Colors.white70),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -124,15 +123,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
-                  childAspectRatio: 0.8,
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 0.85,
                 ),
                 itemCount: menuItems.length,
                 itemBuilder: (context, index) {
-                  return _buildMenuItem(
-                      context, menuItems[index]['title'], menuItems[index]['icon'], menuItems[index]['route']);
+                  return _buildMenuItem(context, menuItems[index]['title'], menuItems[index]['icon'], menuItems[index]['route']);
                 },
               ),
             ],
@@ -141,79 +139,49 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Beranda',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.location_on),
-            label: 'Lokasi',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.insert_drive_file),
-            label: 'Dokumen',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.camera_alt),
-            label: 'Kamera',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profil',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
+          BottomNavigationBarItem(icon: Icon(Icons.location_on), label: 'Lokasi'),
+          BottomNavigationBarItem(icon: Icon(Icons.insert_drive_file), label: 'Dokumen'),
+          BottomNavigationBarItem(icon: Icon(Icons.camera_alt), label: 'Kamera'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: AppColors.primaryColor,
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
+        backgroundColor: Colors.white,
+        elevation: 8,
       ),
     );
   }
 
   Widget _buildMenuItem(BuildContext context, String title, IconData icon, String route) {
     return GestureDetector(
-      onTap: () {
-        if (ModalRoute.of(context) != null) {
-          Navigator.pushNamed(context, route);
-        } else {
-          debugPrint("Route tidak ditemukan: $route");
-        }
-      },
+      onTap: () => Navigator.pushNamed(context, route),
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        color: AppColors.secondaryColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        color: Colors.white,
         elevation: 4,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: AppColors.primaryColor,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(icon, size: 30, color: Colors.white),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor.withOpacity(0.1),
+                shape: BoxShape.circle,
               ),
-              SizedBox(height: 8),
-              Text(
-                title,
-                style: TextStyles.bodyText.copyWith(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
+              child: Icon(icon, size: 28, color: AppColors.primaryColor),
+            ),
+            SizedBox(height: 8),
+            Text(title, style: TextStyles.bodyText.copyWith(fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+          ],
         ),
       ),
     );
   }
 }
 
-// List menu untuk GridView
 final List<Map<String, dynamic>> menuItems = [
   {'title': 'Tambah Lahan', 'icon': Icons.landscape, 'route': '/add_lahan'},
   {'title': 'Pinjam Modal', 'icon': Icons.money, 'route': '/pinjam_modal'},
@@ -223,8 +191,6 @@ final List<Map<String, dynamic>> menuItems = [
   {'title': 'Absensi', 'icon': Icons.calendar_today, 'route': '/absensi'},
   {'title': 'Divisi', 'icon': Icons.group_work, 'route': '/divisi'},
   {'title': 'Rencana Kerja', 'icon': Icons.work, 'route': '/rencana_kerja'},
-  {'title': 'Perawatan Lahan', 'icon': Icons.nature, 'route': '/perawatan_lahan'},
-  {'title': 'Panen', 'icon': Icons.agriculture, 'route': '/panen'},
   {'title': 'Evaluasi', 'icon': Icons.assessment, 'route': '/evaluasi'},
   {'title': 'Profil', 'icon': Icons.person, 'route': '/profil'},
 ];
